@@ -1,25 +1,32 @@
 package pok1;
 
-public class Hand {
-	private char cards[][];
-	
+public class Hand extends SetOfCards{
 
-	public char[][] getCards() {
-		return cards;
+	public Hand(String cards[]) {
+		super(cards);
 	}
 	
-	public char[] getCard(int index) {
-		return cards[index];
-	}
+	
+	public void draw(int numDrawn, Deck deck) {
+		System.out.println("In draw()");
+		int prevNumCards = numCards;
 
-	public void setCards(char cards[][]) {
-		this.cards = cards;
+		String drawn[] = new String[numDrawn];
+		drawn = deck.deal(numDrawn);
+		
+		// "Deals" cards from the hand and does nothing with them. Basically removing with the tidyness 
+		// of "deal"
+		deal(numDrawn);
+		
+		//System.out.println("NumCards is " + numCards);
+		
+		// Fills emptied spots with cards drawn from the deck
+		for(int i = numDrawn - 1; i >= 0; i--) {
+			cards[prevNumCards - i - 1] = drawn[i];
+			numCards++;
+		}
+		
 	}
-	
-	public void setCard(int index, char[] card) {
-		cards[index] = card;
-	}
-	
 	
 
 }

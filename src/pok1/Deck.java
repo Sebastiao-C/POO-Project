@@ -1,14 +1,12 @@
 package pok1;
 
-import java.util.Random;
-import java.util.random.*;
-
-public class Deck {
+public class Deck extends SetOfCards{
 	private final char suits[] = {'H', 'D', 'C', 'S'};
 	private final char values[] = {'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'};
-	private String cards[];
-	private int numCards;
-	
+
+	/* Constructor that doesn't have the "cards" argument. Doesn't really make sense to create a deck
+	 * with cards other than the 52 standard ones. 
+	 */
 	public Deck() {
 		cards = new String[52];
 		for(int i = 0; i < 4; i++) {
@@ -20,27 +18,30 @@ public class Deck {
 		numCards = 52;
 	}
 
-	
+	/* Self-explanatory. Right now adjusts format depending on the number of cards 
+	 * (formatting way to complicated to be removed, I think)
+	 */
 	public void printDeck() {
 		//if(cards.length == 52){
 		int divis = 1;
-		if (cards.length % 4 == 0)
+		int count = 0;
+		if (numCards % 4 == 0)		// Why. Just print lines of 13. Jesus
 			divis = 0;
-		for(int j = 0; j < cards.length; j++) {
+		for(int j = 0; j < 52; j++) {
 			if (cards[j] != null) {
-				if (j%(cards.length/4 + divis) == (cards.length/4 - 1 + divis)) 
+				if (count%(numCards/4 + divis) == (numCards/4 - 1 + divis)) 
 					System.out.println(cards[j]);
 				
 				else
 					System.out.print(cards[j] + " ");
+				count++;
 			}
+
 		}
 		//}
 	}
 	
-	public String[] deal(int numCards) {
-		this.numCards -= numCards;
-		Random rng = new Random();
-		
-	}
+
+	
+
 }
