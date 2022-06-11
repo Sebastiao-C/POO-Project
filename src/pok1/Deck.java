@@ -1,8 +1,8 @@
 package pok1;
 
 public class Deck extends SetOfCards{
-	private final char suits[] = {'H', 'D', 'C', 'S'};
-	private final char values[] = {'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'};
+	public static final char suits[] = {'H', 'D', 'C', 'S'};
+	public static final char values[] = {'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
 
 	/* Constructor that doesn't have the "cards" argument. Doesn't really make sense to create a deck
 	 * with cards other than the 52 standard ones. 
