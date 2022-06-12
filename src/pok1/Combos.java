@@ -7,15 +7,15 @@ package pok1;
  */ 
 
 public final class Combos {
-	public char suits[] = Deck.suits;
-	public char values[] = Deck.values;
+	public static char suits[] = Deck.suits;
+	public static char values[] = Deck.values;
 	
 	// This is a utility class. Not to be instantiated.
 	private Combos() {
 		
 	}
 	
-	private int getCardValue(String card) {
+	private static int getCardValue(String card) {
 		for(int i = 0; i < values.length; i++)
 			if(card.charAt(0) == values[i])
 				return i;
@@ -27,7 +27,7 @@ public final class Combos {
 	/* Verifica se duas cartas seguidas são iguais.
 	 */
 
-	public int[] checkForPair(String cards[]){
+	public static int[] checkForPair(String cards[]){
 		int flagAndValue[] = {0,0};
 	    for(int i = 0; i < 4; i++){
 	        if(cards[i].charAt(0) == cards[i+1].charAt(0)){
@@ -46,10 +46,10 @@ public final class Combos {
 	// Esta fun��o ser� usada em checkForTwoPair para descobrir um par diferente do j� encontrado, e na fun��o checkForFullHouse para descobrir
 	// um par de valor diferente do valor do trio (forbiddenValue)
 
-	public int[] checkForPair2(String cards[], int forbiddenValue){
+	public static int[] checkForPair2(String cards[], int forbiddenValue){
 		int flagAndValue[] = {0,0};
 	    for(int i = 0; i < 4; i++){
-	        if((cards[i].charAt(0) == cards[i+1].charAt(0)) && (cards[i].charAt(0) == values[forbiddenValue])){
+	        if((cards[i].charAt(0) == cards[i+1].charAt(0)) && (cards[i].charAt(0) != values[forbiddenValue])){
 	            // flagAndValue[0] = 1 revela que h� um par no conjunto (=0 revela que n�o) e flagAndValue[1] revela o valor das cartas desse par.
 	            flagAndValue[0] = 1;
 	            flagAndValue[1] = getCardValue(cards[i]);
@@ -65,7 +65,7 @@ public final class Combos {
 	// Fun��o que verifica se h� dois pares distintos num conjunto. Depois de verificar se h� um par, guarda o valor das cartas desse par, e pro-
 	// cura um par com cartas de valor diferente.
 
-	public int[] checkForTwoPair(String cards[]){
+	public static int[] checkForTwoPair(String cards[]){
 		int flagAndValue3[] = {0,0,0};
 	    // flagAndValue[0] = 1 revela que h� um par no conjunto (=0 revela que n�o) e flagAndValue[1] revela o valor das cartas desse par.
 	    // Este flagAndValue � tempor�rio, pelo que n�o � um argumento e � declarado dentro da fun��o.
@@ -97,7 +97,7 @@ public final class Combos {
 
 	// Semelhante a checkForPair, mas verifica tr�s cartas seguidas do mesmo valor, em vez de duas.
 
-	public int[] checkForThreeOfAKind(String cards[]){
+	public static int[] checkForThreeOfAKind(String cards[]){
 		int flagAndValue[] = {0,0};
 	    for(int i = 0; i < 3; i++){
 	        if(getCardValue(cards[i]) == getCardValue(cards[i+1]) && getCardValue(cards[i+1]) == getCardValue(cards[i+2])){
@@ -116,7 +116,7 @@ public final class Combos {
 	// A fun��o check for straight baseia-se em verificar se os valores das 5 cartas, j� organizadas, est�o a 1 valor de dist�ncia das cartas vizinhas.
 	// No entanto, existe o caso de uma sequ�ncia em que o �s � a carta mais baixa, e por isso a fun��o tem de estar pronta para esses casos.
 
-	public int checkForStraight(String cards[]){
+	public static int checkForStraight(String cards[]){
 	    int a = getCardValue(cards[0]);
 	    int b = getCardValue(cards[1]);
 	    int c = getCardValue(cards[2]);
@@ -132,7 +132,7 @@ public final class Combos {
 	    // lugar;
 	    if(a == -1 && (b-c == 1) && (c-d == 1 ) && (d-e == 1) && e == 0){
 	        // Esta fun��o organiza o conjunto para que o �s seja movido para o fim.
-	        // sortStraightWithLowAce(cards);  [novo] é preciso??
+	        sortStraightWithLowAce(cards);  //[novo] é preciso??
 	        return 1;
 	    }
 	    // Este if permite verificar o seguinte caso: e uma sequ�ncia de �s como carta mais baixa que chegou j� organizada da forma correta � fun��o.
@@ -149,7 +149,7 @@ public final class Combos {
 
 	// A fun��o limita-se a verificar se as 5 cartas t�m o mesmo naipe.
 
-	public int checkForFlush(String cards[]){
+	public static int checkForFlush(String cards[]){
 	    if((cards[0].charAt(1) == cards[1].charAt(1)) && (cards[1].charAt(1) == cards[2].charAt(1)) &&
 	    	(cards[2].charAt(1) == cards[3].charAt(1)) && (cards[3].charAt(1) == cards[4].charAt(1))){
 	        return 1;
@@ -159,11 +159,12 @@ public final class Combos {
 
 	// Verifica se h� um par e se h� um trio, e se o par � de valor diferente do valor do trio. (Usa checkForPair2)
 
-	public int[] checkForFullHouse(String cards[]){
+	public static int[] checkForFullHouse(String cards[]){
 		int flagAndValue3[] = {0,0,0};
-	    int flagAndValue[] = {0,0};
+	    int flagAndValue[] = checkForThreeOfAKind(cards);
 	    int a;
-	    if(checkForThreeOfAKind(cards)[0] == 1){
+	    
+	    if(flagAndValue[0] == 1){
 	        // Guarda o valor do trio
 	        a = flagAndValue[1];
 	    }
@@ -192,7 +193,7 @@ public final class Combos {
 
 	// Semelhante a checkForPair e a checkForThreeOfAKind, mas verifica se quatro cartas seguidas t�m o mesmo valor.
 
-	public int[] checkForFourOfAKind(String cards[]){
+	public static int[] checkForFourOfAKind(String cards[]){
 		int flagAndValue[] = {0,0};
 	    for(int i = 0; i < 2; i++){
 	        if(getCardValue(cards[i]) == getCardValue(cards[i+1]) && getCardValue(cards[i+1]) == getCardValue(cards[i+2]) &&
@@ -210,7 +211,7 @@ public final class Combos {
 
 	// A fun��o limita-se a verificar se, no conjunto de 5 cartas, h� ao mesmo tempo uma sequ�ncia e um flush. � a defini��o de um Straight Flush.
 
-	public int checkForStraightFlush(String cards[]){
+	public static int checkForStraightFlush(String cards[]){
 	    if((checkForFlush(cards) == 1) && (checkForStraight(cards) == 1))
 	    	return 1;
 	    return 0;
@@ -219,7 +220,7 @@ public final class Combos {
 	// A fun��o limita-se a verificar se existe um Straight Flush, e se a carta mais alta do Straight Flush � um �s. � a defini��o de um Royal Straight
 	// Flush.
 
-	public int checkForRoyalStraightFlush(String cards[]){
+	public static int checkForRoyalStraightFlush(String cards[]){
 	    if((checkForStraightFlush(cards) == 1) && (getCardValue(cards[0]) == 12))
 	    	return 1;
 	    return 0;
@@ -229,7 +230,7 @@ public final class Combos {
 	// uma posi��o para a frente.
 
 	// VERIFICAR SE ISTO FICOU BEM COM AS ALTERAÇOES
-	public String[] sortStraightWithLowAce(String cards[]){
+	public static String[] sortStraightWithLowAce(String cards[]){
 	    if(getCardValue(cards[0]) == 12 && getCardValue(cards[4]) == 0){
 	        String tempCard;
 	        tempCard = cards[0];
@@ -242,6 +243,83 @@ public final class Combos {
 	    else {
 			return null;
 		}
+	}
+	
+	public static String[] sortCards(String cardArray[]){
+
+	    // Dois valores que evitam chamar mais vezes do que o necess�rio a fun��o getCardValue.
+	    int currentValue;
+	    int nextValue;
+
+	    // Percorre as cartas at� � ordem i (que est� a diminuir, por isso vai percorrer cada vez menos cartas) e cada vez que duas cartas consecutivas
+	    // est�o na ordem errada, troca a sua ordem. Resulta em cada passagem pelo loop exterior levar a menor carta das que s�o percorridas nesse loop
+	    // para a ordem i (primeiro loop a carta mais fraca vai para o fim, segundo loop a segunda carta mais fraca vai para pen�ltimo lugar, etc...).
+	    int numCards = cardArray.length;
+	    for(int i = numCards; i > 0; i--){
+	        currentValue = 0;
+	        nextValue = getCardValue(cardArray[0]);
+	        for(int j = 0; j < i; j++){
+	            if(j < i && j< (numCards - 1)){
+	                currentValue = nextValue;
+	                nextValue = getCardValue(cardArray[j+1]);
+	            }
+	            // Este if p�e a hip�tese de dois valores seguidos serem iguais, e por isso compara os naipes, para p�r as cartas por ordem alfab�tica.
+	            if((j < i && j < (numCards -1)) && ((currentValue < nextValue) || (currentValue == nextValue && (cardArray[j].compareTo(cardArray[j+1]) > 0)))){
+	                String tempCard;
+	                tempCard = cardArray[j+1];
+	                cardArray[j+1] = cardArray[j];
+	                cardArray[j] = tempCard;
+	                nextValue = currentValue;
+	            }
+	        }
+	    }
+	    return cardArray;
+	}
+	
+	
+	public static int getHandValue(String cards[]){
+	    // As fun��es check precisam de receber as cartas ordenadas para funcionar.
+	    sortCards(cards);
+	
+	    // "flag" � o primeiro elemento destes arrays, e revela a presen�a de uma m�o com a for�a presente no nome da fun��o no conjunto recebido. �
+	    // o �nico elemento destes arrays que esta fun��o utiliza (utiliza-os como condia��o nos ifs). O resto dos arrays � utilizado para informa��o
+	    // entre as fun��es check, que para o seu funcionamento, �s vezes dependem de outras.
+	    //int flagAndValue[];
+	    //int flagAndValue3[];
+	
+	    // verificar com todas as fun��es "checkFor", da combina��o mais alta para a mais baixa. Dar return assim que a primeira for encontrada no con-
+	    // junto recebido.
+	
+	    if(checkForRoyalStraightFlush(cards) == 1){
+	        return 10;
+	    }
+	    if(checkForStraightFlush(cards) == 1){
+	        return 9;
+	    }
+	    if(checkForFourOfAKind(cards)[0] == 1){
+	        return 8;
+	    }
+	    if(checkForFullHouse(cards)[0] == 1){
+	        return 7;
+	    }
+	    if(checkForFlush(cards) == 1){
+	        return 6;
+	    }
+	    if(checkForStraight(cards) == 1){
+	        return 5;
+	    }
+	    if(checkForThreeOfAKind(cards)[0] == 1){
+	        return 4;
+	    }
+	    if(checkForTwoPair(cards)[0] == 1){
+	        return 3;
+	    }
+	    if(checkForPair(cards)[0] == 1){
+	        return 2;
+	    }
+	
+	    // Se nenhuma das combina��es anteriores estiver presente, � uma m�o de for�a High Card. Esta � a defini��o de High Card.
+	    return 1;
 	}
 
 }

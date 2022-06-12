@@ -53,7 +53,7 @@ public class SetOfCards {
 	
 	public String[] deal(int numCards) {
 		
-		System.out.println("In deal()");
+		//System.out.println("In deal()");
 		String dealt[] = new String[numCards];
 		Random rng = new Random();
 		for(int i = 0; i < numCards; i++) {
