@@ -1,7 +1,5 @@
 package pok1;
 
-import java.util.Random;
-
 public class Hand extends SetOfCards{
 
 	public Hand(String cards[]) {
@@ -30,14 +28,11 @@ public class Hand extends SetOfCards{
 		
 	}
 	
+	/*
 	public void discard(int index, Deck deck) {
-		String aux[] = new String[1];
-		Random rng = new Random(); 
-		int a = rng.nextInt(deck.numCards);
-		aux[0]=deck.cards[a];
-		deck.cards[a]=cards[index];
-		cards[index]=aux[0];
+		cards[index]=deck.deal(1)[0];
 
 	}
+	*/
 
 }
