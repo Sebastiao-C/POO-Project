@@ -67,7 +67,6 @@ public class SetOfCards {
 	
 	public void printCards() {
 		
-		System.out.println("In printCards()");
 		for(int i = 0; i < numCards; i++) {
 			System.out.print(cards[i] + " ");
 		}

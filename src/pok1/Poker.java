@@ -20,26 +20,46 @@ public class Poker {
 			File filecards = new File (System.getProperty("user.dir") + "\\" + args[3]+".txt");
 			Scanner scan = new Scanner(cmds);
 			String cmd=scan.nextLine();
+			String[] readcmd = cmd.split(" ");
 			int pos=0;
 					
-			for (int i = 0; i<cmds.length(); i++) {
-				char c = cmd.charAt(i);
+			for (int i = 0; i < readcmd.length; i++) {
+				String c = readcmd[i];
 				switch(c) {
-					case 'b':
+					case "b":
 						break;
-					case '$':
+					case "$":
 						break;
-					case 'd':
+					case "d":
 						player.hand.dDraw(pos, filecards);
 						player.hand.printCards();
 						pos+=5;
 						break;
-					case 'h':
-						pos+=3;
+					case "h":
+						int indexes[] = new int[5];
+						int j=0;
+						int add=5;
+						i++;
+						c = readcmd[i];
+						while (!(c.equals("b") || c.equals("$") || c.equals("d") || c.equals("h") || c.equals("a") || c.equals("s")) ) {
+							indexes[j]=Integer.valueOf(c);
+							j++;
+							add--;
+							if (i+1 < readcmd.length) {
+								i++;
+								c = readcmd[i];
+							}
+							else {
+								break;
+							}
+						}
+						player.hand.discard(indexes, pos, filecards);
+						player.hand.printCards();
+						pos+=add;
 						break;
-					case 'a':
+					case "a":
 						break;
-					case 's':
+					case "s":
 						break;
 					 default:
 						 break;

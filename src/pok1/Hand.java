@@ -44,4 +44,22 @@ public class Hand extends SetOfCards{
 			cards[i]=readCard(file,pos+i);
 		}
 	}
+	
+	public void discard(int index[],int pos, File file) throws FileNotFoundException {
+		boolean found;
+		for (int i = 0; i < 5; i++) {
+			found = false;
+			for (int j = 0; j < index.length; j++ ){
+				if (i+1==index[j]) {
+					found = true;
+				}
+			}
+			if (found==false) {
+				cards[i]=readCard(file,pos);
+				pos++;
+			}
+			
+		}
+		
+	}
 }
