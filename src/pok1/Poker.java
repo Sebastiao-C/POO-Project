@@ -36,6 +36,10 @@ public class Poker {
 						else {
 							player.bet(Integer.valueOf(bet));
 							System.out.println("-cmd b " + bet);
+							if ((Integer.valueOf(bet) < 1) || (Integer.valueOf(bet) > 5)){
+								System.out.println("b: illegal amount");
+								break;
+							}
 						}
 						System.out.println("player is betting " + bet);
 						System.out.println();
@@ -47,7 +51,7 @@ public class Poker {
 						System.out.println();
 						break;
 					case "d":
-						player.hand.debugDeal(pos, filecards);
+						player.debugHand.draw(pos, filecards);
 						pos+=5;
 						System.out.println("-cmd d");
 						System.out.print("player's hand ");
@@ -73,7 +77,7 @@ public class Poker {
 							}
 						}
 						i--;
-						player.hand.hold(indexes, pos, filecards);
+						player.debugHand.hold(indexes, pos, filecards);
 						pos+=add;
 						System.out.print("-cmd h ");
 						for (int k = 0; k < indexes.length; k++) {
@@ -99,13 +103,5 @@ public class Poker {
 		else {
 			return;
 		}
-		
-		/*
-		deck = new Deck();
-		player = new Player(1000,deck.deal(5));
-		player.bet(10);
-		player.showCredit();
-		player.hand.printCards();
-		*/
 	}
 }
