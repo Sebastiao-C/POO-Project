@@ -10,14 +10,6 @@ public class Hand extends SetOfCards{
 		super(cards);
 	}
 	
-	public String readCard(File file, int index) throws FileNotFoundException {
-		Scanner scan = new Scanner(file);
-		String cardfile = scan.nextLine();
-		String[] readCards = cardfile.split(" ");
-		return readCards[index];
-		
-	}
-	
 	public void draw(int numDrawn, Deck deck) {
 		
 		System.out.println("In draw()");
@@ -39,13 +31,21 @@ public class Hand extends SetOfCards{
 		}
 	}
 	
-	public void dDraw(int pos, File file) throws FileNotFoundException {
+	public String readCard(File file, int index) throws FileNotFoundException {
+		Scanner scan = new Scanner(file);
+		String cardfile = scan.nextLine();
+		String[] readCards = cardfile.split(" ");
+		return readCards[index];
+		
+	}
+	
+	public void debugDeal(int pos, File file) throws FileNotFoundException {
 		for (int i = 0; i<5;i++) {
 			cards[i]=readCard(file,pos+i);
 		}
 	}
 	
-	public void discard(int index[],int pos, File file) throws FileNotFoundException {
+	public void hold(int index[],int pos, File file) throws FileNotFoundException {
 		boolean found;
 		for (int i = 0; i < 5; i++) {
 			found = false;
