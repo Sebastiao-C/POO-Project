@@ -11,37 +11,42 @@ public class Poker {
 		
 		Deck deck;
 		Player player;
+		Table table;
 		
 		if (args[0].equals("-d")){
 			String cards[] = new String[5];
 			deck = new Deck();
 			player = new Player(Integer.parseInt(args[1]),cards);
+			table = new Table();
 			File cmds = new File (System.getProperty("user.dir")+ "\\" + args[2]+".txt");
 			File filecards = new File (System.getProperty("user.dir") + "\\" + args[3]+".txt");
 			Scanner scan = new Scanner(cmds);
 			String cmd=scan.nextLine();
 			String[] readcmd = cmd.split(" ");
-			int pos=0;
+			int pos = 0;
+			int bet = 5;
 					
 			for (int i = 0; i < readcmd.length; i++) {
 				String c = readcmd[i];
 				switch(c) {
 					case "b":
-						String bet = readcmd[i+1];
-						if (bet.equals("b") || bet.equals("$") || bet.equals("d") || bet.equals("h") || bet.equals("a") || bet.equals("s")) {
-							bet="5";
-							player.bet(5);
+						String toBet = readcmd[i+1];
+						if (toBet.equals("b") || toBet.equals("$") || toBet.equals("d") || toBet.equals("h") || toBet.equals("a") || toBet.equals("s")) {
+							player.bet(bet);
 							System.out.println("-cmd b");
+							System.out.println("player is betting " + bet);
 						}
 						else {
-							player.bet(Integer.valueOf(bet));
-							System.out.println("-cmd b " + bet);
-							if ((Integer.valueOf(bet) < 1) || (Integer.valueOf(bet) > 5)){
+							System.out.println("-cmd b " + toBet);
+							if ((Integer.valueOf(toBet) < 1) || (Integer.valueOf(toBet) > 5)){
 								System.out.println("b: illegal amount");
-								break;
+							}
+							else {
+								bet=Integer.valueOf(toBet);
+								player.bet(bet);
+								System.out.println("player is betting " + bet);
 							}
 						}
-						System.out.println("player is betting " + bet);
 						System.out.println();
 						break;
 					case "$":
@@ -88,6 +93,17 @@ public class Poker {
 						System.out.println();
 						System.out.print("player's hand ");
 						player.hand.printCards();
+						player.hand.setCards(Combos.sortCards(player.hand.getCards()));
+						int handIndex = Combos.getTableIndex(player.hand.getCards());
+						if (handIndex == -2) {
+							System.out.print("player loses and his credit is ");
+							player.showCredit();
+						}
+						else {
+							player.credit+=table.checkTableBet(handIndex, bet);
+							System.out.print("player wins with a " + table.checkTableName(handIndex) + " and his credit is ");
+							player.showCredit();
+						}
 						System.out.println();
 						break;
 					case "a":

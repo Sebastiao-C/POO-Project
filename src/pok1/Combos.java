@@ -321,5 +321,43 @@ public final class Combos {
 	    // Se nenhuma das combina��es anteriores estiver presente, � uma m�o de for�a High Card. Esta � a defini��o de High Card.
 	    return 1;
 	}
+	
+	
+	public static int getTableIndex(String cards[]) {
+		if (checkForRoyalStraightFlush(cards) == 1) {
+			return 0;
+		}
+		if (checkForStraightFlush(cards)==1) {
+			return 1;
+		}
+		if (checkForFourOfAKind(cards)[0]==1 && checkForFourOfAKind(cards)[1]==12) {
+			return 2;
+		}
+		if (checkForFourOfAKind(cards)[0]==1 && (checkForFourOfAKind(cards)[1]>=0 && checkForFourOfAKind(cards)[1]<=2)) {
+			return 3;
+		}
+		if (checkForFourOfAKind(cards)[0]==1 && (checkForFourOfAKind(cards)[1]>=3 && checkForFourOfAKind(cards)[1]<=11)) {
+			return 4;
+		}
+		if (checkForFullHouse(cards)[0] == 1) {
+			return 5;
+		}
+		if (checkForFlush(cards) == 1) {
+			return 6;
+		}
+		if (checkForStraight(cards) == 1) {
+			return 7;
+		}
+		if (checkForThreeOfAKind(cards)[0]==1) {
+			return 8;
+		}
+		if (checkForTwoPair(cards)[0]==1) {
+			return 9;
+		}
+		if (checkForPair(cards)[0]==1 && checkForPair(cards)[1]>=9 ){
+			return 10;
+		}
+		return -2;
+	}
 
 }
