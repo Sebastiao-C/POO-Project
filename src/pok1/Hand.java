@@ -1,9 +1,5 @@
 package pok1;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
 public class Hand extends SetOfCards{
 
 	public Hand(String cards[]) {
