@@ -1,75 +1,172 @@
 package pok1;
+import java.io.*;
+import java.util.Scanner;
 
 public class Poker {
 	
+	public static boolean isNumeric(String str) { 
+		  try {  
+		    Double.parseDouble(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
+	}
 
-
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
-		int value = 0;
-		int i = 0;
+		
 		Deck deck;
-		Hand myHand;
-		/*
-		do {
-		i++;
-		deck = new Deck();
-		//deck.printDeck();
-		//System.out.println();
-		//Random rdm = new Random();
-		//for(int i = 0; i < 100; i++)
-		//System.out.print(rdm.nextInt(32) + " ");
-		//int numDealt = 23;
-		myHand = new Hand(deck.deal(5));
-		myHand.setCards(Combos.sortCards(myHand.getCards()));
-		value = Combos.getHandValue(myHand.cards);
-		//myHand.printCards();
-		//System.out.println("This is the hand's value " + value);
-		}while(value != 7);
-		System.out.println("i is " + i);
-		myHand.printCards();
-		System.out.println("This is the hand's value " + value);	
-		*/
-		int counter = 0;
-		for(i = 0; i < 10000; i++) {
+		Player player;
+		Table table;
+		
+		if (args[0].equals("-d")){
+			String cards[] = new String[5];
 			deck = new Deck();
-			//deck.printDeck();
-			//System.out.println();
-			//Random rdm = new Random();
-			//for(int i = 0; i < 100; i++)
-			//System.out.print(rdm.nextInt(32) + " ");
-			//int numDealt = 23;
-			myHand = new Hand(deck.deal(5));
-			myHand.setCards(Combos.sortCards(myHand.getCards()));
-			value = Combos.getHandValue(myHand.cards);
-			if(value == 1) {
-				counter++;
-				myHand.printCards();
+			table = new Table();
+			File cmds = new File (System.getProperty("user.dir")+ "\\" + args[2]+".txt");
+			File filecards = new File (System.getProperty("user.dir") + "\\" + args[3]+".txt");
+			player = new Player(Integer.parseInt(args[1]),cards,filecards);
+			Scanner scan = new Scanner(cmds);
+			String cmd=scan.nextLine();
+			String[] readcmd = cmd.split(" ");
+			int pos = 0; //Posicao atual da leitura no ficheiro//
+			int bet = 5; //Bet default//
+			boolean canBet = true; // Valores logicos para a possibilidade de execucao de comandos //
+			boolean canDeal = false;
+			boolean canHold = false;
+			int gain = 0;
+					
+			for (int i = 0; i < readcmd.length - 1; i++) {
+				String c = readcmd[i];
+				switch(c) {
+					case "b":
+						if (canBet) {
+							String toBet = readcmd[i+1];
+							if (!(isNumeric(toBet))) {
+								player.bet(bet);
+								System.out.println("-cmd b");
+								System.out.println("player is betting " + bet);
+								canBet = false;
+								canDeal = true;
+							}
+							else {
+								System.out.println("-cmd b " + toBet);
+								if ((Integer.valueOf(toBet) < 1) || (Integer.valueOf(toBet) > 5)){
+									System.out.println("b: illegal amount");
+								}
+								else {
+									bet=Integer.valueOf(toBet);
+									player.bet(bet);
+									System.out.println("player is betting " + bet);
+									canBet = false;
+									canDeal = true;
+								}
+								i++;
+								c = readcmd[i];
+							}
+						}
+						else {
+							System.out.println("b: illegal command");
+						}
+						System.out.println();
+						break;
+					case "$":
+						System.out.println("-cmd $");
+						System.out.print("player's credit is ");
+						player.showCredit();
+						System.out.println();
+						break;
+					case "d":
+						if (canDeal && pos+5 <= player.debugHand.numCardsFile) {
+							player.debugHand.draw(pos, filecards);
+							pos+=5;
+							System.out.println("-cmd d");
+							System.out.print("player's hand ");
+							player.hand.printCards();
+							canDeal = false;
+							canHold = true;
+						}
+						else {
+							System.out.println("d: illegal command");
+						}
+						System.out.println();
+						break;
+					case "h":
+						if (canHold) {
+							int indexes[] = new int[5];
+							int j=0;
+							int add=5;
+							i++;
+							c = readcmd[i];
+							while (isNumeric(c)) {
+								indexes[j]=Integer.valueOf(c);
+								j++;
+								add--;
+								if (i+1 < readcmd.length) {
+									i++;
+									c = readcmd[i];
+								}
+								else {
+									break;
+								}
+							}
+							i--;
+							if (pos+add<=player.debugHand.numCardsFile) {
+								player.debugHand.hold(indexes, pos);
+								pos+=add;
+								System.out.print("-cmd h ");
+								for (int k = 0; k < indexes.length; k++) {
+									if (indexes[k]!=0) {
+										System.out.print(indexes[k] + " ");
+									}
+								}
+								System.out.println();
+								System.out.print("player's hand ");
+								player.hand.printCards();
+								player.hand.setCards(Combos.sortCards(player.hand.getCards()));
+								int handIndex = Combos.getTableIndex(player.hand.getCards());
+								if (handIndex == 11) {
+									System.out.print("player loses and his credit is ");
+									player.showCredit();
+								}
+								else {
+									gain=table.checkTableBet(handIndex, bet);
+									player.credit+=gain;
+									System.out.print("player wins with a " + table.checkTableName(handIndex) + " and his credit is ");
+									player.showCredit();
+								}
+								table.addFreq(handIndex,bet,gain);
+								canHold = false;
+								canBet = true;
+							}
+							else {
+								System.out.println("h: illegal command");
+							}
+						}
+						else {
+							System.out.println("h: illegal command");
+						}
+						System.out.println();
+						break;
+					case "a":
+						break;
+					case "s":
+						table.getStatistics();
+						System.out.print("CREDIT ");
+						player.showCredit();
+						System.out.println(String.format("%-15s %4d","CREDIT",Math.round((double)table.sumGain/(double)table.sumBets*100)));
+						break;
+					 default:
+						System.out.println("Command with no effect");
+						System.out.println();
+						break;
+				}
 			}
 		}
-		System.out.println("Number of " + 10 + "'s: " + counter);
 		
-		//String dealt[] = deck.deal(numDealt);
-
-		/*
-		deck.printDeck();
-		System.out.println();
-		
-		for(int i = 0; i < myHand.getNumCards(); i++) {
-			System.out.println(myHand.getCard(i));
+		else {
+			return;
 		}
-		*/
-		
-
-
-		/*
-		System.out.println();
-		myHand.draw(1, deck);
-		myHand.printCards();
-		*/
-
 	}
-	
-	
-
 }
