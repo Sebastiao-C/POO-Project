@@ -323,6 +323,7 @@ public final class Combos {
 	}
 	
 	
+	//Função que devolve o índice da mão na tabela de preços para pagamento//
 	public static int getTableIndex(String cards[]) {
 		if (checkForRoyalStraightFlush(cards) == 1) {
 			return 0;
@@ -357,7 +358,7 @@ public final class Combos {
 		if (checkForPair(cards)[0]==1 && checkForPair(cards)[1]>=9 ){
 			return 10;
 		}
-		return -2;
+		return 11;
 	}
 
 }
