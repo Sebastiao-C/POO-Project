@@ -40,7 +40,6 @@ public abstract class Poker {
 					
 			for (int i = 0; i < readcmd.length; i++) {
 				String c = readcmd[i];
-				System.out.println(c);
 				switch(c) {
 					case "b":
 						if (canBet) {
@@ -154,7 +153,7 @@ public abstract class Poker {
 					case "a":
 						break;
 					case "s":
-						System.out.println();
+						System.out.println("-cmd s");
 						player.getStatistics();
 						break;
 					 default:

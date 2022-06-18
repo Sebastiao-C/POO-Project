@@ -9,7 +9,7 @@ public class Player {
 	protected int numRounds = 0;
 	protected int sumBets = 0;
 	protected int sumGain = 0;
-	public static final String[] handNames = {"ROYAL FLUSH","STRAIGHT FLUSH","FOUR ACES","FOUR 2-4","FOUR 5-K",
+	private static final String[] handNames = {"ROYAL FLUSH","STRAIGHT FLUSH","FOUR ACES","FOUR 2-4","FOUR 5-K",
 	"FULL HOUSE","FLUSH","STRAIGHT","THREE OF A KIND","TWO PAIR","JACKS OR BETTER","OTHER"};
 	public static final int[] Freqs = new int[12];
 	protected Hand hand;
@@ -37,12 +37,12 @@ public class Player {
 		System.out.println(credit);
 	}
 	
-	public void addFreq(int i, int bet, int gain) {
-		if (i==2 || i==3 || i==4) {
+	public void addFreq(int index, int bet, int gain) {
+		if (index==2 || index==3 || index==4) {
 			Freqs[2]++;
 		}
 		else {
-		Freqs[i]++;
+		Freqs[index]++;
 		}
 		numRounds++;
 		sumBets+=bet;
