@@ -40,6 +40,7 @@ public abstract class Poker {
 					
 			for (int i = 0; i < readcmd.length; i++) {
 				String c = readcmd[i];
+				System.out.println(c);
 				switch(c) {
 					case "b":
 						if (canBet) {
@@ -104,15 +105,15 @@ public abstract class Poker {
 								indexes[j]=Integer.valueOf(c);
 								j++;
 								add--;
-								if (i+1 < readcmd.length) {
+								if (add!=0) {
 									i++;
 									c = readcmd[i];
 								}
+								
 								else {
 									break;
 								}
 							}
-							i--;
 							if (pos+add<=player.debugHand.numCardsFile) {
 								player.debugHand.hold(indexes, pos);
 								pos+=add;
@@ -153,6 +154,7 @@ public abstract class Poker {
 					case "a":
 						break;
 					case "s":
+						System.out.println();
 						player.getStatistics();
 						break;
 					 default:
