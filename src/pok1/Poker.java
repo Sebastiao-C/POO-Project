@@ -2,7 +2,7 @@ package pok1;
 import java.io.*;
 import java.util.Scanner;
 
-public class Poker {
+public abstract class Poker {
 	
 	public static boolean isNumeric(String str) { 
 		  try {  
@@ -29,6 +29,7 @@ public class Poker {
 			player = new Player(Integer.parseInt(args[1]),cards,filecards);
 			Scanner scan = new Scanner(cmds);
 			String cmd=scan.nextLine();
+			scan.close();
 			String[] readcmd = cmd.split(" ");
 			int pos = 0; //Posicao atual da leitura no ficheiro//
 			int bet = 5; //Bet default//
@@ -37,7 +38,7 @@ public class Poker {
 			boolean canHold = false;
 			int gain = 0;
 					
-			for (int i = 0; i < readcmd.length - 1; i++) {
+			for (int i = 0; i < readcmd.length; i++) {
 				String c = readcmd[i];
 				switch(c) {
 					case "b":
@@ -79,7 +80,7 @@ public class Poker {
 						break;
 					case "d":
 						if (canDeal && pos+5 <= player.debugHand.numCardsFile) {
-							player.debugHand.draw(pos, filecards);
+							player.debugHand.draw(pos);
 							pos+=5;
 							System.out.println("-cmd d");
 							System.out.print("player's hand ");
@@ -103,15 +104,15 @@ public class Poker {
 								indexes[j]=Integer.valueOf(c);
 								j++;
 								add--;
-								if (i+1 < readcmd.length) {
+								if (add!=0) {
 									i++;
 									c = readcmd[i];
 								}
+								
 								else {
 									break;
 								}
 							}
-							i--;
 							if (pos+add<=player.debugHand.numCardsFile) {
 								player.debugHand.hold(indexes, pos);
 								pos+=add;
@@ -132,11 +133,11 @@ public class Poker {
 								}
 								else {
 									gain=table.checkTableBet(handIndex, bet);
-									player.credit+=gain;
+									player.win(gain);
 									System.out.print("player wins with a " + table.checkTableName(handIndex) + " and his credit is ");
 									player.showCredit();
 								}
-								table.addFreq(handIndex,bet,gain);
+								player.addFreq(handIndex,bet,gain);
 								canHold = false;
 								canBet = true;
 							}
@@ -152,10 +153,8 @@ public class Poker {
 					case "a":
 						break;
 					case "s":
-						table.getStatistics();
-						System.out.print("CREDIT ");
-						player.showCredit();
-						System.out.println(String.format("%-15s %4d","CREDIT",Math.round((double)table.sumGain/(double)table.sumBets*100)));
+						System.out.println("-cmd s");
+						player.getStatistics();
 						break;
 					 default:
 						System.out.println("Command with no effect");
