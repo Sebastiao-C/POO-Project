@@ -132,7 +132,7 @@ public class Poker {
 								}
 								else {
 									gain=table.checkTableBet(handIndex, bet);
-									player.credit+=gain;
+									player.win(gain);
 									System.out.print("player wins with a " + table.checkTableName(handIndex) + " and his credit is ");
 									player.showCredit();
 								}

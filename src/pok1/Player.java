@@ -5,9 +5,9 @@ import java.io.FileNotFoundException;
 
 public class Player {
 	/*TODO look into statistics*/
-	public int credit;
-	public Hand hand;
-	public debugHand debugHand;
+	protected int credit; // Porque deve ser visível para outros métodos
+	protected Hand hand;
+	protected debugHand debugHand;
 	
 	public Player(int credit,String cards[],File file) throws FileNotFoundException {
 		this.credit=credit;
@@ -16,9 +16,12 @@ public class Player {
 		
 	}
 	
-	public int bet(int bet) {
+	public void bet(int bet) {
 		credit-=bet;
-		return credit;
+	}
+	
+	public void win(int amount) {
+		credit+=amount;
 	}
 	
 	public void showCredit() {
