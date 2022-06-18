@@ -5,7 +5,13 @@ import java.io.FileNotFoundException;
 
 public class Player {
 	/*TODO look into statistics*/
-	protected int credit; // Porque deve ser visível para outros métodos
+	protected int credit;
+	protected int numRounds = 0;
+	protected int sumBets = 0;
+	protected int sumGain = 0;
+	public static final String[] handNames = {"ROYAL FLUSH","STRAIGHT FLUSH","FOUR ACES","FOUR 2-4","FOUR 5-K",
+	"FULL HOUSE","FLUSH","STRAIGHT","THREE OF A KIND","TWO PAIR","JACKS OR BETTER","OTHER"};
+	public static final int[] Freqs = new int[12];
 	protected Hand hand;
 	protected debugHand debugHand;
 	
@@ -13,11 +19,14 @@ public class Player {
 		this.credit=credit;
 		this.hand= new Hand(cards);
 		this.debugHand= new debugHand(file,cards);
+		for (int i = 0; i < 12; i++) {
+			Freqs[i]=0;
+		}
 		
 	}
 	
-	public void bet(int bet) {
-		credit-=bet;
+	public void bet(int amount) {
+		credit-=amount;
 	}
 	
 	public void win(int amount) {
@@ -28,4 +37,39 @@ public class Player {
 		System.out.println(credit);
 	}
 	
+	public void addFreq(int i, int bet, int gain) {
+		if (i==2 || i==3 || i==4) {
+			Freqs[2]++;
+		}
+		else {
+		Freqs[i]++;
+		}
+		numRounds++;
+		sumBets+=bet;
+		sumGain+=gain;
+	}
+	
+	public long getRatio() {
+		long ratio;
+		ratio=Math.round((double)sumGain/(double)sumBets*100);
+		return ratio;
+	}
+	
+	public void getStatistics() {
+		System.out.println(String.format("%-15s %4s","HANDS","Nd"));
+		System.out.println("----------------------");
+		for (int i = 10; i > 4; i--) {
+			System.out.println(String.format("%-15s %4d",handNames[i],Freqs[i]));
+		}
+		System.out.println(String.format("%-15s %4d","FOUR OF A KIND",Freqs[2]));
+		for (int i = 1; i >= 0; i--) {
+			System.out.println(String.format("%-15s %4d",handNames[i],Freqs[i]));
+		}
+		System.out.println(String.format("%-15s %4d",handNames[11],Freqs[11]));
+		System.out.println("----------------------");
+		System.out.println(String.format("%-15s %4d","TOTAL",numRounds));
+		System.out.println("----------------------");
+		System.out.println(String.format("%-10s %2d %s %2d %s %s","CREDIT",credit,"(",getRatio(),"%",")"));
+	}
+
 }

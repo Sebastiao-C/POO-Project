@@ -6,20 +6,19 @@ import java.util.Scanner;
 
 public class debugHand extends Hand{
 	
-	File file;
-	String[] readCards;
-	int numCardsFile;
+	private String[] readCards;
+	protected int numCardsFile;
 
 	public debugHand (File file, String cards[]) throws FileNotFoundException {
 		super(cards);
-		this.file=file;
 		Scanner scan = new Scanner(file);
 		String cardfile = scan.nextLine();
+		scan.close();
 		this.readCards = cardfile.split(" ");
 		this.numCardsFile=readCards.length;
 	}
 	
-	public void draw(int pos, File file) throws FileNotFoundException {
+	public void draw(int pos) {
 		for (int i = 0; i<5;i++) {
 			cards[i]=readCards[pos+i];
 		}
