@@ -25,7 +25,7 @@ public class Deck extends SetOfCards{
 		//if(cards.length == 52){
 		int divis = 1;
 		int count = 0;
-		if (numCards % 4 == 0)		// Why. Just print lines of 13. Jesus
+		if (numCards % 4 == 0)
 			divis = 0;
 		for(int j = 0; j < 52; j++) {
 			if (cards[j] != null) {
