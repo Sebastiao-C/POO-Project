@@ -1,7 +1,7 @@
 package pok1;
 
 public final class Table {
-	public static int[][] Table;
+	private static int[][] Table;
 	private static final String[] handNames = {"ROYAL FLUSH","STRAIGHT FLUSH","FOUR ACES","FOUR 2-4","FOUR 5-K",
 	"FULL HOUSE","FLUSH","STRAIGHT","THREE OF A KIND","TWO PAIR","JACKS OR BETTER","OTHER"};
 	public Table() {
@@ -16,11 +16,11 @@ public final class Table {
 		Table[0][5]=4000;
 	}
 	
-	public int checkTableBet(int i, int bet) {
-		return Table[i][bet];
+	public int checkTableBet(int index, int bet) {
+		return Table[index][bet];
 	}
 	
-	public String checkTableName(int i) {
-		return handNames[i];
+	public String checkTableName(int index) {
+		return handNames[index];
 	}
 }

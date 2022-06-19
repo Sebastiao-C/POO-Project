@@ -9,7 +9,7 @@ public class debugHand extends Hand{
 	private String[] readCards;
 	protected int numCardsFile;
 
-	public debugHand (File file, String cards[]) throws FileNotFoundException {
+	public debugHand (File file, String[] cards) throws FileNotFoundException {
 		super(cards);
 		Scanner scan = new Scanner(file);
 		String cardfile = scan.nextLine();

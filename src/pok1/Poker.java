@@ -1,5 +1,6 @@
 package pok1;
 import java.io.*;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public abstract class Poker {
@@ -12,24 +13,25 @@ public abstract class Poker {
 		    return false;  
 		  }  
 	}
-
+	
 	public static void main(String[] args) throws FileNotFoundException {
-		// TODO Auto-generated method stub
-		
-		Deck deck;
-		Player player;
 		Table table;
-		
+		String[] cards = new String[5];
 		if (args[0].equals("-d")){
-			String cards[] = new String[5];
-			deck = new Deck();
+			debugPlayer player;
 			table = new Table();
-			File cmds = new File (System.getProperty("user.dir")+ "\\" + args[2]+".txt");
-			File filecards = new File (System.getProperty("user.dir") + "\\" + args[3]+".txt");
-			player = new Player(Integer.parseInt(args[1]),cards,filecards);
+			File cmds = new File (System.getProperty("user.dir") + "\\TESTES\\" + args[2]+".txt");
+			File filecards = new File (System.getProperty("user.dir") + "\\TESTES\\" + args[3]+".txt");
+			player = new debugPlayer(Integer.parseInt(args[1]),cards,filecards);
 			Scanner scan = new Scanner(cmds);
-			String cmd=scan.nextLine();
-			scan.close();
+			String cmd;
+			 try {
+				 cmd=scan.nextLine();  
+				 scan.close();
+			 } catch(NoSuchElementException e){
+					System.out.println("File with no commands");
+				    return;  
+				}  
 			String[] readcmd = cmd.split(" ");
 			int pos = 0; //Posicao atual da leitura no ficheiro//
 			int bet = 5; //Bet default//
@@ -84,7 +86,7 @@ public abstract class Poker {
 							pos+=5;
 							System.out.println("-cmd d");
 							System.out.print("player's hand ");
-							player.hand.printCards();
+							player.debugHand.printCards();
 							canDeal = false;
 							canHold = true;
 						}
@@ -98,15 +100,24 @@ public abstract class Poker {
 							int indexes[] = new int[5];
 							int j=0;
 							int add=5;
-							i++;
-							c = readcmd[i];
+							if (i+1<readcmd.length) { /* & is necessary because h can hold 0 cards */
+								if (isNumeric(readcmd[i+1])) {
+									i++;
+									c = readcmd[i];
+								}
+							}
 							while (isNumeric(c)) {
 								indexes[j]=Integer.valueOf(c);
 								j++;
 								add--;
-								if (add!=0) {
-									i++;
-									c = readcmd[i];
+								if (add!=0 && i+1<readcmd.length) { /* Necessary because we need to know if five cards have been read*/
+									if (isNumeric(readcmd[i+1])) {
+										i++;
+										c = readcmd[i];
+									}
+									else {
+										break;
+									}
 								}
 								
 								else {
@@ -124,9 +135,9 @@ public abstract class Poker {
 								}
 								System.out.println();
 								System.out.print("player's hand ");
-								player.hand.printCards();
-								player.hand.setCards(Combos.sortCards(player.hand.getCards()));
-								int handIndex = Combos.getTableIndex(player.hand.getCards());
+								player.debugHand.printCards();
+								player.debugHand.setCards(Combos.sortCards(player.debugHand.getCards()));
+								int handIndex = Combos.getTableIndex(player.debugHand.getCards());
 								if (handIndex == 11) {
 									System.out.print("player loses and his credit is ");
 									player.showCredit();
@@ -164,7 +175,11 @@ public abstract class Poker {
 			}
 		}
 		
-		else {
+		else if (args[0].equals("-s")) {
+			Deck deck;
+			deck = new Deck();
+			simulationPlayer player;
+			player = new simulationPlayer(Integer.parseInt(args[1]),cards);
 			return;
 		}
 	}
