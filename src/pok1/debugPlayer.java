@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class debugPlayer extends Player {
-	protected debugHand debugHand;
+	public debugHand debugHand;
 
 	public debugPlayer(int credit, String[] cards, File file) throws FileNotFoundException {
 		super(credit, cards);

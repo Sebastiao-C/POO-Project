@@ -45,28 +45,37 @@ public abstract class Poker {
 				switch(c) {
 					case "b":
 						if (canBet) {
-							String toBet = readcmd[i+1];
-							if (!(isNumeric(toBet))) {
+							if (i+1 < readcmd.length) {
+								String toBet = readcmd[i+1];
+								if (!(isNumeric(toBet))) {
+									player.bet(bet);
+									System.out.println("-cmd b");
+									System.out.println("player is betting " + bet);
+									canBet = false;
+									canDeal = true;
+								}
+								else {
+									System.out.println("-cmd b " + toBet);
+									if ((Integer.valueOf(toBet) < 1) || (Integer.valueOf(toBet) > 5)){
+										System.out.println("b: illegal amount");
+									}
+									else {
+										bet=Integer.valueOf(toBet);
+										player.bet(bet);
+										System.out.println("player is betting " + bet);
+										canBet = false;
+										canDeal = true;
+									}
+									i++;
+									c = readcmd[i];
+								}
+							}
+							else {
 								player.bet(bet);
 								System.out.println("-cmd b");
 								System.out.println("player is betting " + bet);
 								canBet = false;
 								canDeal = true;
-							}
-							else {
-								System.out.println("-cmd b " + toBet);
-								if ((Integer.valueOf(toBet) < 1) || (Integer.valueOf(toBet) > 5)){
-									System.out.println("b: illegal amount");
-								}
-								else {
-									bet=Integer.valueOf(toBet);
-									player.bet(bet);
-									System.out.println("player is betting " + bet);
-									canBet = false;
-									canDeal = true;
-								}
-								i++;
-								c = readcmd[i];
 							}
 						}
 						else {
