@@ -9,33 +9,33 @@ public class SetOfCards {
 	
 	/* Necessary constructor due to Deck() not having the "cards" argument (See why in Deck.java)
 	 */
-	public SetOfCards() {
+	protected SetOfCards() {
 	}
 	
-	public SetOfCards(String cards[]) {
+	protected SetOfCards(String cards[]) {
 		// TODO Auto-generated constructor stub
 		this.cards = cards;
 		numCards = cards.length;
 	}
 	
 
-	public String[] getCards() {
+	protected String[] getCards() {
 		return cards;
 	}
 	
-	public String getCard(int index) {
+	protected String getCard(int index) {
 		return cards[index];
 	}
 
-	public void setCards(String cards[]) {
+	protected void setCards(String cards[]) {
 		this.cards = cards;
 	}
 	
-	public void setCard(int index, String card) {
+	protected void setCard(int index, String card) {
 		cards[index] = card;
 	}
 	
-	public int getNumCards() {
+	protected int getNumCards() {
 		return numCards;
 	}
 	
@@ -51,7 +51,7 @@ public class SetOfCards {
 
 	}
 	
-	public String[] deal(int numCards) {
+	protected String[] deal(int numCards) {
 		
 		//System.out.println("In deal()");
 		String dealt[] = new String[numCards];
@@ -65,7 +65,7 @@ public class SetOfCards {
 		return dealt;
 	}
 	
-	public void printCards() {
+	protected void printCards() {
 		
 		for(int i = 0; i < numCards; i++) {
 			System.out.print(cards[i] + " ");

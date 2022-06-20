@@ -276,53 +276,6 @@ public final class Combos {
 	    return cardArray;
 	}
 	
-	
-	public static int getHandValue(String cards[]){
-	    // As fun��es check precisam de receber as cartas ordenadas para funcionar.
-	    sortCards(cards);
-	
-	    // "flag" � o primeiro elemento destes arrays, e revela a presen�a de uma m�o com a for�a presente no nome da fun��o no conjunto recebido. �
-	    // o �nico elemento destes arrays que esta fun��o utiliza (utiliza-os como condia��o nos ifs). O resto dos arrays � utilizado para informa��o
-	    // entre as fun��es check, que para o seu funcionamento, �s vezes dependem de outras.
-	    //int flagAndValue[];
-	    //int flagAndValue3[];
-	
-	    // verificar com todas as fun��es "checkFor", da combina��o mais alta para a mais baixa. Dar return assim que a primeira for encontrada no con-
-	    // junto recebido.
-	
-	    if(checkForRoyalStraightFlush(cards) == 1){
-	        return 10;
-	    }
-	    if(checkForStraightFlush(cards) == 1){
-	        return 9;
-	    }
-	    if(checkForFourOfAKind(cards)[0] == 1){
-	        return 8;
-	    }
-	    if(checkForFullHouse(cards)[0] == 1){
-	        return 7;
-	    }
-	    if(checkForFlush(cards) == 1){
-	        return 6;
-	    }
-	    if(checkForStraight(cards) == 1){
-	        return 5;
-	    }
-	    if(checkForThreeOfAKind(cards)[0] == 1){
-	        return 4;
-	    }
-	    if(checkForTwoPair(cards)[0] == 1){
-	        return 3;
-	    }
-	    if(checkForPair(cards)[0] == 1){
-	        return 2;
-	    }
-	
-	    // Se nenhuma das combina��es anteriores estiver presente, � uma m�o de for�a High Card. Esta � a defini��o de High Card.
-	    return 1;
-	}
-	
-	
 	//Função que devolve o índice da mão na tabela de preços para pagamento//
 	public static int getTableIndex(String cards[]) {
 		if (checkForRoyalStraightFlush(cards) == 1) {
