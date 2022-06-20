@@ -19,7 +19,7 @@ public abstract class Poker {
 		Deck deck;
 		Player player;
 		Table table;
-		
+		/*
 		if (args[0].equals("-d")){
 			String cards[] = new String[5];
 			deck = new Deck();
@@ -151,6 +151,7 @@ public abstract class Poker {
 						System.out.println();
 						break;
 					case "a":
+						
 						break;
 					case "s":
 						System.out.println("-cmd s");
@@ -164,8 +165,60 @@ public abstract class Poker {
 			}
 		}
 		
+		
+		
 		else {
 			return;
 		}
+		*/
+		
+		
+		deck = new Deck();
+		//deck.printDeck();
+		//System.out.println();
+		//Random rdm = new Random();
+		//for(int i = 0; i < 100; i++)
+		//System.out.print(rdm.nextInt(32) + " ");
+		//int numDealt = 23;
+		Hand myHand = new Hand(deck.deal(5));
+		/*myHand.printCards();
+		reorder(myHand.cards);
+		myHand.printCards();
+		*/
+		
+		String myCards[] =  {"2D", "3S", "5C", "6C", "TC"};
+		Combos.sortCards(myCards);
+		int myArray[];// = Combos.checkFor4toS(myCards);
+		/*
+		for(int var = 0; var < myArray.length; var++) {
+			System.out.print(myArray[var] + ", ");
+		}
+		System.out.println();
+		for(int var = 0; var < myCards.length; var++) {
+			System.out.print(myCards[var] + ", ");
+		}
+		*/
+		myArray = Combos.playPerfectly(myCards);
+		for(int var = 0; var < myArray.length; var++) {
+			System.out.print(myArray[var] + ", ");
+		}
+		System.out.println();
+		for(int var = 0; var < myCards.length; var++) {
+			System.out.print(myCards[var] + ", ");
+		}
+		
+		
+		
 	}
+	
+	public static void reorder(String cards[]) {
+		String tempCard = cards[0];
+		cards[0] = cards[1];
+		cards[1] = cards[2];
+		cards[2] = cards[3];
+		cards[3] = cards[4];
+		cards[4] = tempCard;
+	}
+	
+	
 }

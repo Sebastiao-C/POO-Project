@@ -51,6 +51,17 @@ public class SetOfCards {
 
 	}
 	
+	//protected void add(String cards[]) {
+	//	for(int i)
+	//}
+	
+	/*
+	public shuffle() {
+		String newOrder = deal(52);
+		add(newOrder);
+	}
+	*/
+	
 	public String[] deal(int numCards) {
 		
 		//System.out.println("In deal()");
@@ -64,6 +75,7 @@ public class SetOfCards {
 		
 		return dealt;
 	}
+	
 	
 	public void printCards() {
 		

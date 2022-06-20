@@ -6,6 +6,8 @@ public class Hand extends SetOfCards{
 		super(cards);
 	}
 	
+	
+	
 	public void draw(int numDrawn, Deck deck) {
 		
 		System.out.println("In draw()");
@@ -26,4 +28,6 @@ public class Hand extends SetOfCards{
 			numCards++;
 		}
 	}
+	
+
 }

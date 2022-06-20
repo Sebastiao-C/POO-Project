@@ -8,6 +8,13 @@ public class debugHand extends Hand{
 	
 	private String[] readCards;
 	protected int numCardsFile;
+	private int currentPosition;
+	
+	/*
+	public int getNumCardsFile() {
+		return numCardsFile;
+	}
+	*/
 
 	public debugHand (File file, String cards[]) throws FileNotFoundException {
 		super(cards);
